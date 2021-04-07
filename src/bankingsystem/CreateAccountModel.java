@@ -5,6 +5,7 @@
  */
 package bankingsystem;
 
+//data model class
 public class CreateAccountModel {
 
   String fName;
@@ -16,6 +17,7 @@ public class CreateAccountModel {
   String accountType;
   double accountBalance;
 
+  //comnstructor
     public CreateAccountModel(String fName, String lName, String email, long  phone , long  accountNo, int pin, String accountType , double accountBalance) {
         this.fName = fName;
         this.lName = lName;
@@ -27,6 +29,7 @@ public class CreateAccountModel {
         this.accountBalance = accountBalance;
     }
 
+    //getter/setteres
     public double getAccountBalance() {
         return accountBalance;
     }

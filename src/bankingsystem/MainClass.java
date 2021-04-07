@@ -18,23 +18,28 @@ import java.util.logging.Logger;
 
 public class MainClass extends CreateAccountModel{
     
+    //list to store the account detail
     public static ArrayList<CreateAccountModel> createAcc = new ArrayList<CreateAccountModel>();
 
+    //constructor
      public MainClass(String fName, String lName, String email, long  phone , long  accountNo, int pin, String accountType , double accountBalance) {
         super(fName, lName, email, phone , accountNo, pin, accountType ,accountBalance );
     }
      
     public static void main(String[] args) throws IOException {
         
+        //method to start the process 
         fillData();
     }
     
+    //method to select the option from banking service and trasaction
     public static void fillData() throws IOException{
         
        Scanner sc= new Scanner(System.in);
        System.out.println("---Welcome to Banking system---");
        System.out.println("");
        System.out.println("Select any option:"+ "\n" +"1.Banking Service"+ "\n" +"2.Transaction"+"\n"+"3.Exit");
+      
        switch(sc.nextInt()){
            case 1:
                bankingService();
@@ -42,10 +47,13 @@ public class MainClass extends CreateAccountModel{
            case 2:
                transaction();
                break;
+           case 3:
+               break;
        }
     
     }
     
+    //perform create , edit and display account details 
     public static void bankingService(){
         
         Scanner sc= new Scanner(System.in);
@@ -85,6 +93,7 @@ public class MainClass extends CreateAccountModel{
         
     }
     
+    //create account by entering information
     public static void createAccount() throws IOException {
         
         //create a new file named account.txt, if the file exists will be overwritten
@@ -148,8 +157,13 @@ public class MainClass extends CreateAccountModel{
         double accountBalance = 0.0;
         if(pin == confirmPin){
             
+            //fill data model
             CreateAccountModel ca = new CreateAccountModel(firstName , lastName , email , phone , accountNo , pin , accountType , accountBalance);
+            
+            //add to list
             createAcc.add(ca);
+            
+            //save to text file
             pw.println(ca.writeToFile());
            
 
@@ -170,11 +184,13 @@ public class MainClass extends CreateAccountModel{
         }
         
          while(sc.next().equalsIgnoreCase("yes"));
+        //close text file
          pw.close();
          bankingService();
 
     }
     
+    //to display account details
     public static void displayDetails(){
         
         Scanner sc = new Scanner(System.in);
@@ -184,6 +200,7 @@ public class MainClass extends CreateAccountModel{
 
         if(createAcc.size() > 0){
             
+            //for loop to get entered account no
             for(int i = 0 ; i < createAcc.size() ; i++)
             {
                 if(createAcc.get(i).accountNo == accountNo){
@@ -216,7 +233,7 @@ public class MainClass extends CreateAccountModel{
                       }
     }
     
-    
+    //method to edit account details
     public static void editDetails(){
         
         Scanner sc = new Scanner(System.in);
@@ -226,6 +243,7 @@ public class MainClass extends CreateAccountModel{
 
         if(createAcc.size() > 0){
             
+            //for loop to get entered account no
             for(int i = 0 ; i < createAcc.size() ; i++)
             {
                 if(createAcc.get(i).accountNo == accountNo){
@@ -246,6 +264,7 @@ public class MainClass extends CreateAccountModel{
                           System.out.println("");
                           System.out.println("What do you want to edit ?"+"\n" + "1.Name"+"\n" + "2.email address"+"\n" + "3.phone"+"\n" + "4.pin"+"\n" + "5.Exit");
                         
+                          //switch case to perform edit accoprding to the value entered by the user
                       switch(sc.nextInt()){
                           case 1:
                                 System.out.println("Enter your new first name: ");
@@ -324,14 +343,16 @@ public class MainClass extends CreateAccountModel{
     
     }
     
+    //method for transaction process
     public static void transaction() throws IOException{
         
         Scanner sc= new Scanner(System.in);
-        System.out.println("");
-        System.out.println("Enter your account no:");
-        double accNo = sc.nextDouble();
+        
         
         if(createAcc.size() > 0){
+            System.out.println("");
+            System.out.println("Enter your account no:");
+            double accNo = sc.nextDouble();
             
             for(int i = 0 ; i < createAcc.size() ; i++)
             {
@@ -343,16 +364,20 @@ public class MainClass extends CreateAccountModel{
                     }
                     else{
                         if(createAcc.get(i).pin == pin){
-                            System.out.println("");
+                            
+                            do{
+                            
+                                System.out.println("");
                             System.out.println("1.Display the current balance" + "\n" + "2. Deposit money" + "\n" + "3. Withdraw money" + "\n" + "4. Transfer money to other accounts within the bank" + "\n" + "5. Pay utility bills" + "\n" + "6. Exit");
                             
                             switch(sc.nextInt()){
+                                //display current balance
                                 case 1:
                                     System.out.println("");
                                     System.out.println("Your account balance is : " + createAcc.get(i).getAccountBalance());
-                                    fillData();
                                     break;
                                     
+                                    //to deposit money in your account
                                 case 2:
                                     System.out.println("Your current account balance is :"+ createAcc.get(i).getAccountBalance());
                                     System.out.println("Enter the amount you want to deposit :");
@@ -365,9 +390,10 @@ public class MainClass extends CreateAccountModel{
                                     else{
                                         System.out.println("Enter the valid amount");
                                     }
-                                    fillData();
+                                   
                                     break;
                                     
+                                    //to withdraw money from your account
                                 case 3:
                                     System.out.println("Your current account balance is :"+ createAcc.get(i).getAccountBalance());
                                     System.out.println("Enter the amount you want to withdraw :");
@@ -390,8 +416,9 @@ public class MainClass extends CreateAccountModel{
                                     else{
                                         System.out.println("Enter the valid amount");
                                     }
-                                    fillData();
                                     break;
+                                    
+                                    //to transfer money to another account
                                 case 4:
                                     double transMoney = 0.0;
                                     transMoney = transferMoney(createAcc.get(i).getAccountBalance());
@@ -401,17 +428,18 @@ public class MainClass extends CreateAccountModel{
                                         createAcc.get(i).setAccountBalance(leftamount);
                                         System.out.println("Your new account balance is :"+ createAcc.get(i).getAccountBalance());
                                     }
-                                    fillData();
                                     break;
+                                    
+                                    //to pay utility bills
                                 case 5:
                                     
                                     double amnt = payBill(createAcc.get(i).getAccountBalance());
                                     double leftAmount = createAcc.get(i).getAccountBalance()-amnt;
                                     createAcc.get(i).setAccountBalance(leftAmount);
                                     System.out.println("Your new account balance is :"+ createAcc.get(i).getAccountBalance());
-                                    fillData();
                                     break;
                                     
+                                    //to exit
                                 case 6:
                                      fillData();
                                     break;
@@ -420,19 +448,39 @@ public class MainClass extends CreateAccountModel{
                                     transaction();
                                     break;
                             }
+                            
+                            System.out.println("want to exit? y/n");
+                                
+                            }
+                            while(sc.next().equalsIgnoreCase("n"));
+                             fillData();
                         }
                         }
                     }
                  else{
                          if(i > createAcc.size()){
                          System.out.println("Account doesnot exists!");
-                    }                }
+                         System.out.println("want to exit? y/n");
+                         if(sc.next().equalsIgnoreCase("y")){
+                             fillData();
+                         }
+                         else{
+                             transaction();
+                         }
+                         
+                         }                
+                }
                     
                 }
             }
+        else{
+            System.out.println("No Account exists! First create an account to perform any transaction");
+            fillData();
+        }
         
         }
     
+    //method for transferring money
     public static double transferMoney(double amnt){
     
         Scanner sc = new Scanner(System.in);
@@ -440,6 +488,8 @@ public class MainClass extends CreateAccountModel{
         System.out.println("Enter the account number to which you want to tranfer money :");
         double accountNo = sc.nextDouble();
         double amount = 0.0;
+        
+        //for loop to get entered account no
         for(int i = 0 ; i < createAcc.size() ; i++)
         {
             if(createAcc.get(i).getAccountNo() == accountNo){
@@ -471,6 +521,7 @@ public class MainClass extends CreateAccountModel{
         return amount;
     }
     
+    //method to pay utility bills
     public static double payBill(double amnt){
         double billAmt = 0;
         try {
@@ -522,6 +573,7 @@ public class MainClass extends CreateAccountModel{
      return billAmt;
     }
     
+    //method to read data from text file
     public static void readFromFile(ArrayList<CreateAccountModel> createAcc) throws IOException
 	{
 		FileInputStream empFile=new FileInputStream("D:/documents/account.txt");
@@ -539,12 +591,14 @@ public class MainClass extends CreateAccountModel{
                         int pin=Integer.parseInt(fields[5]);
                         String accType=fields[6];
                         double accountBalance=Double.parseDouble(fields[7]);
-			if(fields.length==7) {
+//			if(fields.length==7) {
 				ft=new CreateAccountModel(fName, lName, email, phone , accountNo, pin, accType, accountBalance);
 				createAcc.add(ft);
-			}	
+                                System.out.println("list" + createAcc);
+//			}	
 			
-		}    
+		} 
+                
     
         }
     
