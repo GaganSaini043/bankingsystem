@@ -12,6 +12,7 @@ import java.io.PrintWriter;
 import bankingsystem.CreateAccountModel;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.InputStreamReader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -34,7 +35,8 @@ public class MainClass extends CreateAccountModel{
     
     //method to select the option from banking service and trasaction
     public static void fillData() throws IOException{
-        
+       
+       readFromFile(createAcc);
        Scanner sc= new Scanner(System.in);
        System.out.println("---Welcome to Banking system---");
        System.out.println("");
@@ -101,7 +103,7 @@ public class MainClass extends CreateAccountModel{
 	FileWriter emp = new FileWriter(filename);
 	PrintWriter pw=new PrintWriter(emp);
         
-        readFromFile(createAcc);
+       
         
         Scanner sc= new Scanner(System.in);
         String accountType  = "";
@@ -163,9 +165,7 @@ public class MainClass extends CreateAccountModel{
             //add to list
             createAcc.add(ca);
             
-            //save to text file
-            pw.println(ca.writeToFile());
-           
+         
 
         }
         else{
@@ -185,7 +185,7 @@ public class MainClass extends CreateAccountModel{
         
          while(sc.next().equalsIgnoreCase("yes"));
         //close text file
-         pw.close();
+         writeToFile(createAcc);
          bankingService();
 
     }
@@ -238,6 +238,11 @@ public class MainClass extends CreateAccountModel{
         else{
         }
         
+        try {
+            writeToFile(createAcc);
+        } catch (IOException ex) {
+            Logger.getLogger(MainClass.class.getName()).log(Level.SEVERE, null, ex);
+        }
                       System.out.println("");
                       System.out.println("Press 0 to exit");
                       
@@ -365,6 +370,11 @@ public class MainClass extends CreateAccountModel{
             
         }
        
+        try {
+            writeToFile(createAcc);
+        } catch (IOException ex) {
+            Logger.getLogger(MainClass.class.getName()).log(Level.SEVERE, null, ex);
+        }
     
     }
     
@@ -400,6 +410,7 @@ public class MainClass extends CreateAccountModel{
                                 case 1:
                                     System.out.println("");
                                     System.out.println("Your account balance is : " + createAcc.get(i).getAccountBalance());
+                                   
                                     break;
                                     
                                     //to deposit money in your account
@@ -414,6 +425,11 @@ public class MainClass extends CreateAccountModel{
                                     }
                                     else{
                                         System.out.println("Enter the valid amount");
+                                    }
+                                     try {
+                                        writeToFile(createAcc);
+                                    } catch (IOException ex) {
+                                        Logger.getLogger(MainClass.class.getName()).log(Level.SEVERE, null, ex);
                                     }
                                    
                                     break;
@@ -436,6 +452,11 @@ public class MainClass extends CreateAccountModel{
                                             System.out.println("======Transaction Denied======");
                                             System.out.println("You do not have sufficient amount to withdraw :");
                                         }
+                                         try {
+                                            writeToFile(createAcc);
+                                        } catch (IOException ex) {
+                                            Logger.getLogger(MainClass.class.getName()).log(Level.SEVERE, null, ex);
+                                        }
                                        
                                     }
                                     else{
@@ -453,6 +474,11 @@ public class MainClass extends CreateAccountModel{
                                         createAcc.get(i).setAccountBalance(leftamount);
                                         System.out.println("Your new account balance is :"+ createAcc.get(i).getAccountBalance());
                                     }
+                                     try {
+                                        writeToFile(createAcc);
+                                    } catch (IOException ex) {
+                                        Logger.getLogger(MainClass.class.getName()).log(Level.SEVERE, null, ex);
+                                    }
                                     break;
                                     
                                     //to pay utility bills
@@ -462,6 +488,11 @@ public class MainClass extends CreateAccountModel{
                                     double leftAmount = createAcc.get(i).getAccountBalance()-amnt;
                                     createAcc.get(i).setAccountBalance(leftAmount);
                                     System.out.println("Your new account balance is :"+ createAcc.get(i).getAccountBalance());
+                                    try {
+                                        writeToFile(createAcc);
+                                    } catch (IOException ex) {
+                                        Logger.getLogger(MainClass.class.getName()).log(Level.SEVERE, null, ex);
+                                    }
                                     break;
                                     
                                     //to exit
@@ -557,6 +588,11 @@ public class MainClass extends CreateAccountModel{
                     }
                 
             }
+             try {
+            writeToFile(createAcc);
+        } catch (IOException ex) {
+            Logger.getLogger(MainClass.class.getName()).log(Level.SEVERE, null, ex);
+        }
         }
         return amount;
     }
@@ -613,6 +649,16 @@ public class MainClass extends CreateAccountModel{
      return billAmt;
     }
     
+    
+    public static void writeToFile(ArrayList<CreateAccountModel> createAcc) throws IOException{
+            String filename= "D:/documents/account.txt";
+            FileWriter emp = new FileWriter(filename);
+            PrintWriter pw=new PrintWriter(emp);
+            for (int i=0; i<createAcc.size() ; i++){            
+                pw.println(createAcc.get(i).writeToFileModel());        
+            }        
+            pw.close();
+    }
     //method to read data from text file
     public static void readFromFile(ArrayList<CreateAccountModel> createAcc) throws IOException
 	{
@@ -620,10 +666,16 @@ public class MainClass extends CreateAccountModel{
 		BufferedReader br=new BufferedReader(new InputStreamReader(empFile));
 		
 		CreateAccountModel ft;
-		String line;
-		while((line=br.readLine())!=null) {
-			String fields[]=line.split(",");
-			String fName=fields[0];
+		String line = null;
+                
+                FileReader fr = new FileReader("D:/documents/account.txt");
+  
+                int i;
+                while ((line=br.readLine()) !=null){
+                    String fields[]=line.split(",");
+//                     System.out.print((char) i);
+                     String fName=fields[0];
+                        System.out.print("fname" + fName);
                         String lName=fields[1];
 			String email=fields[2];
                         long phone=Long.parseLong(fields[3]);
@@ -635,9 +687,7 @@ public class MainClass extends CreateAccountModel{
 				ft=new CreateAccountModel(fName, lName, email, phone , accountNo, pin, accType, accountBalance);
 				createAcc.add(ft);
                                 System.out.println("list" + createAcc);
-//			}	
-			
-		} 
+        }
                 
     
         }

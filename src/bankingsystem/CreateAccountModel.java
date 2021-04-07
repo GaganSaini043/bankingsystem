@@ -94,8 +94,8 @@ public class CreateAccountModel {
         this.accountType = accountType;
     }
   
-    public String writeToFile() {
-	return fName+ " " +lName+ ","+ email + "," +  phone + "," + accountNo +","+pin+","+accountType+","+accountBalance;
+    public String writeToFileModel() {
+	return fName+ "," +lName+ ","+ email + "," +  phone + "," + accountNo +","+pin+","+accountType+","+accountBalance;
 }
 
           
