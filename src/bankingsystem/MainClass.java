@@ -219,10 +219,23 @@ public class MainClass extends CreateAccountModel{
                 } 
                 else{
                      if(i > createAcc.size()){
-                         System.out.println("Account doesnot exists!");
-                    }
+                        System.out.println("Account doesnot exists!");
+                         System.out.println("want to exit? y/n");
+                         if(sc.next().equalsIgnoreCase("y")){
+                              try {
+                                  fillData();
+                              } catch (IOException ex) {
+                                  Logger.getLogger(MainClass.class.getName()).log(Level.SEVERE, null, ex);
+                              }
+                         }
+                         else{
+                             displayDetails();
+                         }                  
+                     }
                 }
             }   
+        }
+        else{
         }
         
                       System.out.println("");
@@ -331,7 +344,19 @@ public class MainClass extends CreateAccountModel{
                 }
                  else{
                     if(i > createAcc.size()){
-                         System.out.println("Account doesnot exists!");
+                          System.out.println("Account doesnot exists!");
+                         System.out.println("want to exit? y/n");
+                         if(sc.next().equalsIgnoreCase("y")){
+                              try {
+                                  fillData();
+                              } catch (IOException ex) {
+                                  Logger.getLogger(MainClass.class.getName()).log(Level.SEVERE, null, ex);
+                              }
+                         }
+                         else{
+                             editDetails();
+                         }
+                         
                     }
                    
                 }
@@ -513,7 +538,22 @@ public class MainClass extends CreateAccountModel{
             else{
                  if(i > createAcc.size()){
                          System.out.println("");
-                         System.out.println("Account doesnot exists!");
+                          System.out.println("Account doesnot exists!");
+                         System.out.println("want to exit? y/n");
+                         if(sc.next().equalsIgnoreCase("y")){
+                              try {
+                                  fillData();
+                              } catch (IOException ex) {
+                                  Logger.getLogger(MainClass.class.getName()).log(Level.SEVERE, null, ex);
+                              }
+                         }
+                         else{
+                             try {
+                                 transaction();
+                             } catch (IOException ex) {
+                                 Logger.getLogger(MainClass.class.getName()).log(Level.SEVERE, null, ex);
+                             }
+                         }         
                     }
                 
             }
