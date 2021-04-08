@@ -17,7 +17,7 @@ public class MainClass extends CreateAccountModel{
     
     //list to store the account detail
     public static ArrayList<CreateAccountModel> createAcc = new ArrayList<CreateAccountModel>();
-    public static String filePath = "\"D:/documents/account.txt\"";
+    public static String filePath = "D:/documents/account.txt";
 
     //constructor
      public MainClass(String fName, String lName, String email, long  phone , long  accountNo, int pin, String accountType , double accountBalance) {
@@ -104,11 +104,11 @@ public class MainClass extends CreateAccountModel{
         
         Scanner sc= new Scanner(System.in);
         String accountType  = "";
-        
+        boolean flag = false;
         do{
         
         System.out.println("");
-        System.out.println("Select account type:"+ "\n" +" 1.Current"+ "\n" +" 2.Savings"+ "\n" +" 3.Salary"+ "\n" +" 4.NRI"+"\n"+"5.Exit");
+        System.out.println("Select account type:"+ "\n" +" 1.Current"+ "\n" +" 2.Savings"+ "\n" +" 3.Salary"+ "\n" +" 4.NRI"+"\n"+" 5.Exit");
         int type= sc.nextInt();
         
         System.out.println("");
@@ -148,14 +148,19 @@ public class MainClass extends CreateAccountModel{
                 accountType = "NRI";
                 break;
             case 5:
-                bankingService();
-                break;
+                flag = true;
+//              bankingService();
+                return;
             default:
-                bankingService();
+                flag = true;
+//                bankingService();
                 break;
-                
-                
+                     
         }
+         System.out.println("boolean" + flag);
+        if(flag == true){
+        return;}
+         
         
         double accountBalance = 0.0;
         if(pin == confirmPin){
@@ -185,12 +190,15 @@ public class MainClass extends CreateAccountModel{
             System.out.println("");
             System.out.println("Want to add more account ? yes/no");
             
+          
+            
+            
         }
         
-         while(sc.next().equalsIgnoreCase("yes"));
+         while(sc.next().equalsIgnoreCase("yes") || flag == false);
         //close text file
          writeToFile(createAcc , false);
-         bankingService();
+//         bankingService();
 
     }
     
@@ -710,7 +718,7 @@ public class MainClass extends CreateAccountModel{
                 while ((line=br.readLine()) !=null){
                         String fields[]=line.split(",");
                         String fName=fields[0];
-                        System.out.print("fname" + fName);
+//                        System.out.print("fname" + fName);
                         String lName=fields[1];
 			String email=fields[2];
                         long phone=Long.parseLong(fields[3]);
