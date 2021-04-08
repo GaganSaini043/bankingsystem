@@ -150,6 +150,10 @@ public class MainClass extends CreateAccountModel{
             case 5:
                 bankingService();
                 break;
+            default:
+                bankingService();
+                break;
+                
                 
         }
         
