@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package bankingsystem;
 
 import java.util.*;
@@ -11,6 +6,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import bankingsystem.CreateAccountModel;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.InputStreamReader;
@@ -185,7 +181,7 @@ public class MainClass extends CreateAccountModel{
         
          while(sc.next().equalsIgnoreCase("yes"));
         //close text file
-         writeToFile(createAcc);
+         writeToFile(createAcc , false);
          bankingService();
 
     }
@@ -239,7 +235,7 @@ public class MainClass extends CreateAccountModel{
         }
         
         try {
-            writeToFile(createAcc);
+            writeToFile(createAcc , false);
         } catch (IOException ex) {
             Logger.getLogger(MainClass.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -371,7 +367,7 @@ public class MainClass extends CreateAccountModel{
         }
        
         try {
-            writeToFile(createAcc);
+            writeToFile(createAcc , true);
         } catch (IOException ex) {
             Logger.getLogger(MainClass.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -427,7 +423,7 @@ public class MainClass extends CreateAccountModel{
                                         System.out.println("Enter the valid amount");
                                     }
                                      try {
-                                        writeToFile(createAcc);
+                                        writeToFile(createAcc , true);
                                     } catch (IOException ex) {
                                         Logger.getLogger(MainClass.class.getName()).log(Level.SEVERE, null, ex);
                                     }
@@ -453,7 +449,7 @@ public class MainClass extends CreateAccountModel{
                                             System.out.println("You do not have sufficient amount to withdraw :");
                                         }
                                          try {
-                                            writeToFile(createAcc);
+                                            writeToFile(createAcc , true);
                                         } catch (IOException ex) {
                                             Logger.getLogger(MainClass.class.getName()).log(Level.SEVERE, null, ex);
                                         }
@@ -475,7 +471,7 @@ public class MainClass extends CreateAccountModel{
                                         System.out.println("Your new account balance is :"+ createAcc.get(i).getAccountBalance());
                                     }
                                      try {
-                                        writeToFile(createAcc);
+                                        writeToFile(createAcc , true);
                                     } catch (IOException ex) {
                                         Logger.getLogger(MainClass.class.getName()).log(Level.SEVERE, null, ex);
                                     }
@@ -489,7 +485,7 @@ public class MainClass extends CreateAccountModel{
                                     createAcc.get(i).setAccountBalance(leftAmount);
                                     System.out.println("Your new account balance is :"+ createAcc.get(i).getAccountBalance());
                                     try {
-                                        writeToFile(createAcc);
+                                        writeToFile(createAcc , true);
                                     } catch (IOException ex) {
                                         Logger.getLogger(MainClass.class.getName()).log(Level.SEVERE, null, ex);
                                     }
@@ -563,6 +559,7 @@ public class MainClass extends CreateAccountModel{
                 else{
                     System.out.println("Enter the valid amount");
                 }
+                break;
                 
             }
             
@@ -586,10 +583,9 @@ public class MainClass extends CreateAccountModel{
                              }
                          }         
                     }
-                
             }
              try {
-            writeToFile(createAcc);
+            writeToFile(createAcc , true);
         } catch (IOException ex) {
             Logger.getLogger(MainClass.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -650,19 +646,26 @@ public class MainClass extends CreateAccountModel{
     }
     
     
-    public static void writeToFile(ArrayList<CreateAccountModel> createAcc) throws IOException{
+    public static void writeToFile(ArrayList<CreateAccountModel> createAcc, boolean flag) throws IOException{
+        
             String filename= "D:/documents/account.txt";
             FileWriter emp = new FileWriter(filename);
             PrintWriter pw=new PrintWriter(emp);
+            
             for (int i=0; i<createAcc.size() ; i++){            
                 pw.println(createAcc.get(i).writeToFileModel());        
-            }        
+                } 
+                  
             pw.close();
     }
+    
     //method to read data from text file
     public static void readFromFile(ArrayList<CreateAccountModel> createAcc) throws IOException
 	{
-		FileInputStream empFile=new FileInputStream("D:/documents/account.txt");
+            File f = new File("D:/documents/account.txt");
+		if (f.exists()) {
+                    
+                    FileInputStream empFile=new FileInputStream("D:/documents/account.txt");
 		BufferedReader br=new BufferedReader(new InputStreamReader(empFile));
 		
 		CreateAccountModel ft;
@@ -672,9 +675,8 @@ public class MainClass extends CreateAccountModel{
   
                 int i;
                 while ((line=br.readLine()) !=null){
-                    String fields[]=line.split(",");
-//                     System.out.print((char) i);
-                     String fName=fields[0];
+                        String fields[]=line.split(",");
+                        String fName=fields[0];
                         System.out.print("fname" + fName);
                         String lName=fields[1];
 			String email=fields[2];
@@ -687,8 +689,12 @@ public class MainClass extends CreateAccountModel{
 				ft=new CreateAccountModel(fName, lName, email, phone , accountNo, pin, accType, accountBalance);
 				createAcc.add(ft);
                                 System.out.println("list" + createAcc);
-        }
+                }
                 
+                    
+
+                    }
+		
     
         }
     
