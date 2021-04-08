@@ -404,7 +404,7 @@ public class MainClass extends CreateAccountModel{
                             
                             do{
                             
-                                System.out.println("");
+                            System.out.println("");
                             System.out.println("1.Display the current balance" + "\n" + "2. Deposit money" + "\n" + "3. Withdraw money" + "\n" + "4. Transfer money to other accounts within the bank" + "\n" + "5. Pay utility bills" + "\n" + "6. Exit");
                             
                             switch(sc.nextInt()){
@@ -487,14 +487,22 @@ public class MainClass extends CreateAccountModel{
                                 case 5:
                                     
                                     double amnt = payBill(createAcc.get(i).getAccountBalance());
-                                    double leftAmount = createAcc.get(i).getAccountBalance()-amnt;
-                                    createAcc.get(i).setAccountBalance(leftAmount);
-                                    System.out.println("Your new account balance is :"+ createAcc.get(i).getAccountBalance());
-                                    try {
-                                        writeToFile(createAcc , true);
-                                    } catch (IOException ex) {
-                                        Logger.getLogger(MainClass.class.getName()).log(Level.SEVERE, null, ex);
+                                    
+                                    if(amnt < createAcc.get(i).getAccountBalance()){
+                                        double leftAmount = createAcc.get(i).getAccountBalance()-amnt;
+                                        createAcc.get(i).setAccountBalance(leftAmount);
+                                        System.out.println("Your new account balance is :"+ createAcc.get(i).getAccountBalance());
+                                        try {
+                                            writeToFile(createAcc , true);
+                                        } catch (IOException ex) {
+                                            Logger.getLogger(MainClass.class.getName()).log(Level.SEVERE, null, ex);
+                                        }
                                     }
+                                    else{
+                                    System.out.println("Account Balance is not sufficient");
+                                    fillData();
+                                    }
+                                   
                                     break;
                                     
                                     //to exit
