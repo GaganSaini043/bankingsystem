@@ -717,7 +717,7 @@ public class MainClass extends CreateAccountModel{
 //			if(fields.length==7) {
 				ft=new CreateAccountModel(fName, lName, email, phone , accountNo, pin, accType, accountBalance);
 				createAcc.add(ft);
-                                System.out.println("list" + createAcc);
+//                                System.out.println("list" + createAcc);
                 }
                 
                     
