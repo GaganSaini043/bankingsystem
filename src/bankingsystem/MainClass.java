@@ -17,6 +17,7 @@ public class MainClass extends CreateAccountModel{
     
     //list to store the account detail
     public static ArrayList<CreateAccountModel> createAcc = new ArrayList<CreateAccountModel>();
+    public static String filePath = "\"D:/documents/account.txt\"";
 
     //constructor
      public MainClass(String fName, String lName, String email, long  phone , long  accountNo, int pin, String accountType , double accountBalance) {
@@ -95,7 +96,7 @@ public class MainClass extends CreateAccountModel{
     public static void createAccount() throws IOException {
         
         //create a new file named account.txt, if the file exists will be overwritten
-        String filename= "D:/documents/account.txt";
+        String filename= filePath;
 	FileWriter emp = new FileWriter(filename);
 	PrintWriter pw=new PrintWriter(emp);
         
@@ -648,7 +649,7 @@ public class MainClass extends CreateAccountModel{
     
     public static void writeToFile(ArrayList<CreateAccountModel> createAcc, boolean flag) throws IOException{
         
-            String filename= "D:/documents/account.txt";
+            String filename= filePath;
             FileWriter emp = new FileWriter(filename);
             PrintWriter pw=new PrintWriter(emp);
             
@@ -662,16 +663,16 @@ public class MainClass extends CreateAccountModel{
     //method to read data from text file
     public static void readFromFile(ArrayList<CreateAccountModel> createAcc) throws IOException
 	{
-            File f = new File("D:/documents/account.txt");
+            File f = new File(filePath);
 		if (f.exists()) {
                     
-                    FileInputStream empFile=new FileInputStream("D:/documents/account.txt");
+                    FileInputStream empFile=new FileInputStream(filePath);
 		BufferedReader br=new BufferedReader(new InputStreamReader(empFile));
 		
 		CreateAccountModel ft;
 		String line = null;
                 
-                FileReader fr = new FileReader("D:/documents/account.txt");
+                FileReader fr = new FileReader(filePath);
   
                 int i;
                 while ((line=br.readLine()) !=null){
