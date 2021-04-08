@@ -157,12 +157,15 @@ public class MainClass extends CreateAccountModel{
         if(pin == confirmPin){
             
             //fill data model
+            if(!compareAccount(accountNo)){
+                
             CreateAccountModel ca = new CreateAccountModel(firstName , lastName , email , phone , accountNo , pin , accountType , accountBalance);
             
             //add to list
             createAcc.add(ca);
-            
-         
+  
+            }
+
 
         }
         else{
@@ -212,7 +215,9 @@ public class MainClass extends CreateAccountModel{
                       System.out.println("Phone : "+createAcc.get(i).phone );
                       System.out.println("Account No : "+createAcc.get(i).accountNo );
                       System.out.println("Account Type : "+createAcc.get(i).accountType );
+                      System.out.println("Account Balance : "+createAcc.get(i).accountBalance );
                     }
+                    break;
                 } 
                 else{
                      if(i > createAcc.size()){
@@ -646,6 +651,21 @@ public class MainClass extends CreateAccountModel{
      return billAmt;
     }
     
+    public static boolean compareAccount(long account){
+    
+        boolean flag = false;
+        
+        for (int i=0; i<createAcc.size() ; i++)
+        {            
+            if(createAcc.get(i).accountNo == account){
+                flag = true;
+            }
+            break;
+        } 
+        
+        return flag;
+        
+    }
     
     public static void writeToFile(ArrayList<CreateAccountModel> createAcc, boolean flag) throws IOException{
         
@@ -693,7 +713,6 @@ public class MainClass extends CreateAccountModel{
                 }
                 
                     
-
                     }
 		
     
